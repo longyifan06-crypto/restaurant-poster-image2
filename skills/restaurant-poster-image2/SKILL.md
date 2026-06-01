@@ -1,6 +1,6 @@
 ---
 name: restaurant-poster-image2
-description: Use this skill when the user wants to generate restaurant, food, dish, menu, Meituan, Dianping, delivery, Douyin local-life, Xiaohongshu, Moments, QR-code, opening, promotion, combo, or catering poster images from dish photos and merchant information with image2.0 or image generation. The skill routes user-provided keywords to PDF-derived restaurant prompt templates, composes a precise image2.0 prompt, then generates the promotional image.
+description: Use this skill when the user wants to generate restaurant, food, dish, menu, Meituan, Dianping, delivery, Douyin local-life, Xiaohongshu, Moments, QR-code, opening, promotion, combo, or catering poster images from dish photos and merchant information with image2.0 or image generation. The skill routes user-provided keywords to PDF-derived restaurant prompt templates, asks once for optional missing details, composes a precise image2.0 prompt, then generates the promotional image.
 ---
 
 # Restaurant Poster Image2.0
@@ -11,7 +11,8 @@ Generate restaurant promotional images from dish photos and merchant details. Th
 
 - Use the user's dish image as the visual truth. Preserve dish shape, plating, ingredients, packaging, logo, and any "do not change" details.
 - First route the request by keywords, then read `references/pdf-prompt-index.md` for the matching PDF-derived prompt pattern.
-- If the user gives enough information, generate directly with the built-in image generation tool. Do not stop just to show the prompt.
+- After receiving the dish photo and initial merchant information, ask the user once whether they want to supplement several useful details. Do not generate before this one supplement check unless the user explicitly says to skip questions or generate directly.
+- If the user says no, "不用", "没有", "按现有信息", or "直接做", proceed with the existing information and do not ask again.
 - Default canvas is 4:5 for general restaurant posters, Moments, and Xiaohongshu-style local promotion.
 - For Meituan, Dianping, delivery, or menu-image requests, use 1:1 or 4:5 with the dish large and centered.
 - For Douyin cover requests, use 9:16 with a large title of 8 Chinese characters or fewer.
@@ -32,6 +33,39 @@ Extract these fields from the user message and attached images:
 - output count and whether multiple images need a consistent style
 
 Do not invent missing store names, prices, phone numbers, addresses, QR codes, logos, or dates. If a missing field is important, omit that text or use a generic short selling point.
+
+## One-Time Supplement Check
+
+After the user sends a dish photo plus any initial information, reply with a short supplement checklist before generating. The checklist should be chosen from what is missing or unclear, not a fixed long form.
+
+Use this structure:
+
+```text
+我先按现有信息判断是：<matched task type>。
+出图前你还要补充这几点吗？没有的话，我就按现在的信息直接生成：
+1. <missing or useful point>
+2. <missing or useful point>
+3. <missing or useful point>
+```
+
+List 3-6 points at most. Prefer these points:
+
+- 用在哪个平台或比例：美团/大众点评/外卖、抖音封面、小红书、朋友圈、店内海报。
+- 必须写在图上的文字：店名、菜名、价格、活动、营业时间、电话、地址。
+- 想突出的卖点：新鲜、分量足、便宜、招牌、现做、适合聚餐、出餐快。
+- 想要的风格：高级干净、烟火气、年轻潮流、火锅氛围、轻食清爽。
+- 不能改的地方：菜品形状、盘子、包装、LOGO、二维码位置、门店环境。
+- 是否需要多张图以及是否统一风格。
+
+If the routed task has special needs, include them in the checklist:
+
+- Meituan/menu: ask whether price and one-line selling point should appear.
+- Douyin cover: ask for a short headline under 8 Chinese characters if not provided.
+- QR lead: ask for QR code placement and whether a QR image will be supplied.
+- Combo/menu price list: ask for dish list and prices if incomplete.
+- Store environment: ask what area to emphasize, such as private room, storefront, or dining area.
+
+Once the user answers, merge their additions into the prompt and generate. If they confirm no additions, generate immediately with the initial information.
 
 ## Keyword Routing
 
