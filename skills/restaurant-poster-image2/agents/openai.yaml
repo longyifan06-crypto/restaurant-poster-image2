@@ -1,0 +1,7 @@
+interface:
+  display_name: "餐饮宣传图 Image2.0"
+  short_description: "根据关键词匹配餐饮提示词并用 image2.0 直接出图"
+  default_prompt: "Use $restaurant-poster-image2 to turn this dish photo and merchant keywords into an image2.0 restaurant promotional poster."
+
+policy:
+  allow_implicit_invocation: true

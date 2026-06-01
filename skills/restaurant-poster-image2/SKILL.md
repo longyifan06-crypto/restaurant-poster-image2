@@ -1,0 +1,91 @@
+---
+name: restaurant-poster-image2
+description: Use this skill when the user wants to generate restaurant, food, dish, menu, Meituan, Dianping, delivery, Douyin local-life, Xiaohongshu, Moments, QR-code, opening, promotion, combo, or catering poster images from dish photos and merchant information with image2.0 or image generation. The skill routes user-provided keywords to PDF-derived restaurant prompt templates, composes a precise image2.0 prompt, then generates the promotional image.
+---
+
+# Restaurant Poster Image2.0
+
+Generate restaurant promotional images from dish photos and merchant details. This skill is based on a PDF-derived restaurant poster workflow, but only keeps the prompt-selection and image-generation parts.
+
+## Default Behavior
+
+- Use the user's dish image as the visual truth. Preserve dish shape, plating, ingredients, packaging, logo, and any "do not change" details.
+- First route the request by keywords, then read `references/pdf-prompt-index.md` for the matching PDF-derived prompt pattern.
+- If the user gives enough information, generate directly with the built-in image generation tool. Do not stop just to show the prompt.
+- Default canvas is 4:5 for general restaurant posters, Moments, and Xiaohongshu-style local promotion.
+- For Meituan, Dianping, delivery, or menu-image requests, use 1:1 or 4:5 with the dish large and centered.
+- For Douyin cover requests, use 9:16 with a large title of 8 Chinese characters or fewer.
+- Chinese text is generated directly in the image by image2.0 unless the user asks for a more reliable local text overlay workflow.
+
+## Inputs To Extract
+
+Extract these fields from the user message and attached images:
+
+- dish image role: main dish photo, menu photo, storefront photo, QR code, logo, or style reference
+- keywords: platform, scene, dish type, purpose, style
+- store or brand name
+- dish or combo name
+- price, discount, activity, date, business hours
+- selling points: fresh, large portion, signature, low price, new product, group meal, made now, suitable for hotpot, clean environment
+- required text: phone, address, WeChat, QR code, slogan
+- fixed constraints: do not alter dish shape, plate, package, logo, QR position, store environment
+- output count and whether multiple images need a consistent style
+
+Do not invent missing store names, prices, phone numbers, addresses, QR codes, logos, or dates. If a missing field is important, omit that text or use a generic short selling point.
+
+## Keyword Routing
+
+Read `references/keyword-routing.md` when the user gives keywords, platform names, scene words, or ambiguous intent.
+
+Routing priority:
+
+1. Platform: Meituan/Dianping/delivery, Douyin, Xiaohongshu, Moments, in-store poster.
+2. Scene: single dish, combo, promotion, new product, opening, holiday, price list, QR lead generation, storefront/environment, quality explanation.
+3. Dish type: hotpot, barbecue, night snack, breakfast, light meal, drink, dessert, snack.
+4. Purpose: attract clicks, menu upgrade, group-buying cover, get customers to store, scan code, show value, recover trust.
+5. Style: clean premium, lively street-food, young trendy, warm hotpot, fresh light-meal.
+
+When multiple signals appear, choose one primary template by `platform > scene > dish type > purpose > style`, then merge secondary details into the prompt. Example: "Douyin cover + night snack + barbecue" uses the Douyin-cover template as primary and adds the night-snack barbecue atmosphere.
+
+If the user only provides a dish image and dish name, use `single-dish` by default. If even the dish name is missing, use `general-poster` and avoid in-image text beyond a simple generic headline.
+
+## Image2.0 Prompt Assembly
+
+Compose the prompt in this order:
+
+1. Use case and asset type: restaurant commercial promotional image, target platform, aspect ratio.
+2. Input image role: reference or edit target; the dish photo is the source of truth.
+3. Primary PDF scene pattern from `pdf-prompt-index.md`.
+4. User facts: store name, dish name, price, selling points, activity details, required text.
+5. Layout: title, subtitle, price, callout, QR area, white space, dish placement.
+6. Style: clean, premium, real, appetizing, platform-appropriate.
+7. Preservation rules: keep the real dish structure and fixed elements.
+8. Negative rules: no cheap ad style, no cartoon style, no plastic look, no excessive filters, no random people, no clutter, no garbled text, no invented facts.
+
+Keep the final prompt direct and production-oriented. Prefer concrete layout instructions over vague praise.
+
+## Generation
+
+- Use built-in image generation/image2.0 by default.
+- If the user supplied a local image file path, inspect it first so the image is visible in the conversation before using it as the dish reference.
+- For one final image, make one image generation call.
+- For multiple requested images or variants, make one generation call per distinct deliverable so each prompt can match its scene.
+- After generation, briefly report:
+  - matched task type
+  - matched PDF-derived template
+  - aspect ratio
+  - any omitted missing fields
+  - final image result
+
+## Quality Check
+
+Before finalizing, check:
+
+- Dish still looks like the original photo.
+- Food looks clean, real, appetizing, and not over-filtered.
+- Layout is not cluttered and avoids cheap red-yellow ad clutter unless explicitly requested.
+- Text is short: title 8-12 Chinese characters when possible, one subtitle, price visible if provided.
+- Platform ratio matches the routed task.
+- Required fixed elements are preserved or correctly reserved.
+- No invented price, phone, address, QR code, logo, or impossible claim.
+- No obvious garbled text. If text accuracy is weak, tell the user and suggest a "stable text overlay" version.
