@@ -1,7 +1,7 @@
 interface:
   display_name: "餐饮宣传图 Image2.0"
-  short_description: "发送菜品信息后先询问补充点，再匹配餐饮提示词用 image2.0 出图"
-  default_prompt: "Use $restaurant-poster-image2 to turn this dish photo and merchant keywords into an image2.0 restaurant promotional poster, asking once for optional missing details before generation."
+  short_description: "按关键词选择原始PDF餐饮提示词，不私自改写后出图"
+  default_prompt: "Use $restaurant-poster-image2 to select the closest original PDF-derived Chinese restaurant poster prompt for this dish photo and keywords, replacing only placeholders before image2.0 generation."
 
 policy:
   allow_implicit_invocation: true

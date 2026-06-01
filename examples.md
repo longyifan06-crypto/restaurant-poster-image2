@@ -10,7 +10,7 @@
 关键词：美团、菜单图、外卖主图、干净、高级
 ```
 
-Expected route: `meituan-menu` + `single-dish`
+Expected primary template: `meituan-menu`
 
 ## 抖音夜宵封面
 
@@ -21,7 +21,7 @@ Expected route: `meituan-menu` + `single-dish`
 关键词：抖音封面、夜宵、烧烤、朋友聚餐、暖光
 ```
 
-Expected route: `douyin-cover` + `barbecue-night`
+Expected primary template: `douyin-cover`
 
 ## 扫码引流海报
 
@@ -32,7 +32,7 @@ Expected route: `douyin-cover` + `barbecue-night`
 关键词：扫码、二维码、火锅、套餐、引流
 ```
 
-Expected route: `qr-lead` + `hotpot` + `combo`
+Expected primary template: `qr-lead`
 
 ## 新品朋友圈图
 
@@ -43,4 +43,4 @@ Expected route: `qr-lead` + `hotpot` + `combo`
 关键词：新品、奶茶、朋友圈、清爽、今日推荐
 ```
 
-Expected route: `new-product` + `drink` + `moments-poster`
+Expected primary template: `new-product`

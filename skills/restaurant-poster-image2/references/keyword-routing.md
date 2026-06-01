@@ -4,11 +4,11 @@ Use this table to lock the task type before reading `pdf-prompt-index.md`.
 
 ## Platform Keywords
 
-- `meituan-menu`: 美团, 大众点评, 外卖, 菜单图, 菜单主图, 团购图, 平台主图, 点评, 外卖平台
+- `meituan-menu`: 美团, 外卖, 菜单主图, 平台主图, 外卖平台
+- `dianping-menu`: 大众点评, 点评, 菜单图, 美团菜单, 大众点评菜单
 - `douyin-cover`: 抖音, 本地生活, 短视频封面, 竖屏封面, 团购封面, 探店封面, 点击率
 - `moments-poster`: 朋友圈, 微信朋友圈, 社群, 老板发圈, 日常宣传, 到店宣传
-- `xiaohongshu-poster`: 小红书, 种草, 笔记封面, 探店笔记
-- `in-store-poster`: 店内海报, 门店海报, 桌贴, 易拉宝, 横版海报
+- `general-poster`: 小红书, 种草, 笔记封面, 探店笔记, 店内海报, 门店海报, 桌贴, 易拉宝, 横版海报
 
 ## Scene Keywords
 
@@ -45,8 +45,10 @@ Use this table to lock the task type before reading `pdf-prompt-index.md`.
 ## Conflict Rules
 
 - If a platform keyword exists, it controls aspect ratio and layout density.
-- If both `douyin-cover` and a dish type exist, keep Douyin as primary and add dish-type atmosphere.
-- If both `meituan-menu` and `promotion` exist, keep Meituan/menu clarity primary and include price or discount as a small highlight.
+- If both `douyin-cover` and a dish type exist, keep Douyin as primary. Do not merge dish-type template wording into the final prompt.
+- If both `meituan-menu` and `promotion` exist, choose one primary template. Do not combine two template bodies.
 - If `qr-lead` appears, reserve a clean QR position even when another scene is primary.
 - If `menu-price-list` appears with many dishes, prioritize readable menu layout over food-photo drama.
-- If no keyword is clear but a dish photo exists, route to `single-dish`.
+- If only `clean-premium` is clear, route to `premium-poster`.
+- Style and purpose keywords are supporting signals only. Except `clean-premium` -> `premium-poster`, do not treat them as standalone templates.
+- If no keyword is clear, route to `general-poster`.

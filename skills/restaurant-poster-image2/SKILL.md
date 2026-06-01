@@ -1,21 +1,20 @@
 ---
 name: restaurant-poster-image2
-description: Use this skill when the user wants to generate restaurant, food, dish, menu, Meituan, Dianping, delivery, Douyin local-life, Xiaohongshu, Moments, QR-code, opening, promotion, combo, or catering poster images from dish photos and merchant information with image2.0 or image generation. The skill routes user-provided keywords to PDF-derived restaurant prompt templates, asks once for optional missing details, composes a precise image2.0 prompt, then generates the promotional image.
+description: Use this skill when the user wants to generate restaurant, food, dish, menu, Meituan, Dianping, delivery, Douyin local-life, Xiaohongshu, Moments, QR-code, opening, promotion, combo, or catering poster images from dish photos and merchant information with image2.0 or image generation. The skill routes user-provided keywords to the closest original PDF-derived Chinese prompt template, asks once for optional missing details, replaces only template placeholders, never privately rewrites the prompt, then generates the image.
 ---
 
 # Restaurant Poster Image2.0
 
-Generate restaurant promotional images from dish photos and merchant details. This skill is based on a PDF-derived restaurant poster workflow, but only keeps the prompt-selection and image-generation parts.
+Generate restaurant promotional images from dish photos and merchant details. This skill selects an original Chinese prompt template from a PDF-derived restaurant poster workflow and sends that template to image2.0 without private rewriting.
 
 ## Default Behavior
 
-- Use the user's dish image as the visual truth. Preserve dish shape, plating, ingredients, packaging, logo, and any "do not change" details.
-- First route the request by keywords, then read `references/pdf-prompt-index.md` for the matching PDF-derived prompt pattern.
+- Use the user's dish image as the visual truth, but do not add private prompt clauses beyond the selected original template.
+- First route the request by keywords, then read `references/pdf-prompt-index.md` for the matching original Chinese prompt template.
 - After receiving the dish photo and initial merchant information, ask the user once whether they want to supplement several useful details. Do not generate before this one supplement check unless the user explicitly says to skip questions or generate directly.
 - If the user says no, "不用", "没有", "按现有信息", or "直接做", proceed with the existing information and do not ask again.
-- Default canvas is 4:5 for general restaurant posters, Moments, and Xiaohongshu-style local promotion.
-- For Meituan, Dianping, delivery, or menu-image requests, use 1:1 or 4:5 with the dish large and centered.
-- For Douyin cover requests, use 9:16 with a large title of 8 Chinese characters or fewer.
+- If the scene cannot be confidently matched from the user's keywords, always use `general-poster` ("通用海报提示词").
+- Do not add aspect ratio, style, layout, or quality words unless they are already in the selected PDF template or explicitly provided by the user.
 - Chinese text is generated directly in the image by image2.0 unless the user asks for a more reliable local text overlay workflow.
 
 ## Inputs To Extract
@@ -36,7 +35,7 @@ Do not invent missing store names, prices, phone numbers, addresses, QR codes, l
 
 ## One-Time Supplement Check
 
-After the user sends a dish photo plus any initial information, reply with a short supplement checklist before generating. The checklist should be chosen from what is missing or unclear, not a fixed long form.
+After the user sends a dish photo plus any initial information, reply with a short supplement checklist before generating. The checklist should collect fields needed to choose a PDF scene template or replace `【】` placeholders. Do not use the checklist as permission to invent or rewrite the final prompt.
 
 Use this structure:
 
@@ -65,7 +64,7 @@ If the routed task has special needs, include them in the checklist:
 - Combo/menu price list: ask for dish list and prices if incomplete.
 - Store environment: ask what area to emphasize, such as private room, storefront, or dining area.
 
-Once the user answers, merge their additions into the prompt and generate. If they confirm no additions, generate immediately with the initial information.
+Once the user answers, use their additions only for scene routing and placeholder replacement. If they confirm no additions, generate immediately with the closest original template or `general-poster`.
 
 ## Keyword Routing
 
@@ -79,24 +78,26 @@ Routing priority:
 4. Purpose: attract clicks, menu upgrade, group-buying cover, get customers to store, scan code, show value, recover trust.
 5. Style: clean premium, lively street-food, young trendy, warm hotpot, fresh light-meal.
 
-When multiple signals appear, choose one primary template by `platform > scene > dish type > purpose > style`, then merge secondary details into the prompt. Example: "Douyin cover + night snack + barbecue" uses the Douyin-cover template as primary and adds the night-snack barbecue atmosphere.
+When multiple signals appear, choose one primary template by `platform > scene > dish type > purpose > style`. Do not merge extra prompt language from secondary templates. Example: "Douyin cover + night snack + barbecue" uses the Douyin-cover template as the final prompt template; do not paste barbecue-night text into it unless the user explicitly asks.
 
-If the user only provides a dish image and dish name, use `single-dish` by default. If even the dish name is missing, use `general-poster` and avoid in-image text beyond a simple generic headline.
+If the user only provides a dish image and dish name but no scene keyword, use `general-poster`. Use `single-dish` only when the user clearly indicates 单品、菜品图、招牌菜、主推菜, or a similar single-dish scene. If the scene is unclear or required placeholders cannot be safely filled, use `general-poster`.
 
-## Image2.0 Prompt Assembly
+## Prompt Fidelity Rules
 
-Compose the prompt in this order:
+The final image2.0 prompt must be the selected template text from `pdf-prompt-index.md`, with only these allowed changes:
 
-1. Use case and asset type: restaurant commercial promotional image, target platform, aspect ratio.
-2. Input image role: reference or edit target; the dish photo is the source of truth.
-3. Primary PDF scene pattern from `pdf-prompt-index.md`.
-4. User facts: store name, dish name, price, selling points, activity details, required text.
-5. Layout: title, subtitle, price, callout, QR area, white space, dish placement.
-6. Style: clean, premium, real, appetizing, platform-appropriate.
-7. Preservation rules: keep the real dish structure and fixed elements.
-8. Negative rules: no cheap ad style, no cartoon style, no plastic look, no excessive filters, no random people, no clutter, no garbled text, no invented facts.
+- Replace bracket placeholders such as `【店名】`, `【菜品名】`, `【价格】`, `【活动主题】` with the user's exact supplied text.
+- If the user explicitly adds a required detail, place it only where the template already has the corresponding placeholder or instruction.
+- If no matching template is clear, use `general-poster` exactly.
 
-Keep the final prompt direct and production-oriented. Prefer concrete layout instructions over vague praise.
+Never do these:
+
+- Do not translate the Chinese template into English.
+- Do not paraphrase, beautify, shorten, expand, or reorder the template.
+- Do not combine two PDF templates into one new prompt.
+- Do not add new photography/style/layout words from your own judgment.
+- Do not invent missing store names, prices, phone numbers, addresses, QR codes, logos, or dates.
+- Do not add a separate "negative prompt" unless the selected original template already contains those negatives.
 
 ## Generation
 

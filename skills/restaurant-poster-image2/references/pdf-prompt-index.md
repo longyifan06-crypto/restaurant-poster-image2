@@ -1,138 +1,203 @@
 # PDF Prompt Index
 
-This is the prompt-only index distilled from a restaurant poster workflow. Use it as the source of restaurant poster prompt patterns. Ignore sales talk, pricing advice, and short-video scripts.
+This index stores original Chinese prompt templates distilled from the restaurant poster PDF workflow. Use these templates as fixed source text.
 
-## Universal Rules
+Core rule: select one template, replace only bracket placeholders such as `【店名】`, `【菜品名】`, `【价格】`, and send that text to image2.0. Do not translate, paraphrase, beautify, expand, shorten, reorder, or combine templates.
 
-- Keep the original dish recognizable. Preserve dish shape, plating, ingredient identity, packaging, logo, and any fixed elements.
-- Only improve lighting, color, background, texture, appetizing quality, and commercial poster layout.
-- Make the image real, clean, high-resolution, appetizing, and suitable for restaurant promotion.
-- Avoid cheap small-ad style, cartoon style, plastic look, excessive filters, excessive decoration, messy borders, random people, unrelated props, and garbled text.
-- Keep text readable and limited. Use store name, dish name, selling point, price, activity time, and contact info only when provided.
+If the user's keywords do not clearly match a scene, use `general-poster`.
 
-## Templates
+## Base Templates
 
 ### general-poster
-Use for general restaurant posters when the platform or scene is unclear.
+Use when the scene is unclear, when no strong keyword matches, or when another template would require missing placeholders.
 
-Prompt pattern: Generate a restaurant commercial promotional image based on the uploaded dish photo. Keep the real form of the dish, improve only lighting, color, background, and layout. Use a clean premium layout, appetizing realistic food texture, clear readable text, and a simple background. Suitable for Meituan, Dianping, Moments, Xiaohongshu, and Douyin local-life use.
+原始提示词：
+```text
+参考我上传的菜品原图，生成一张餐饮商业宣传图。排版干净高级，不要廉价小广告风，不要卡通风，不要塑料感，不要过度滤镜，不要过度装饰。尽量保留原始餐品真实形态，只优化光线、色泽、背景和商业海报排版，不要把菜品改得不像原图。画面真实高清，突出食欲感，背景简洁干净，文字清晰可读，适合美团、大众点评、朋友圈、抖音本地生活使用。
+```
 
 ### premium-poster
-Use when the user asks for high-end, clean, premium, or brand-like style.
+Use for 高端, 高级, 品牌感, 精修, 高级干净.
 
-Prompt pattern: Preserve the original dish structure and plating. Upgrade it with commercial food photography quality: soft light, natural fresh color, real texture, clean edges, simple premium background, enough white space, clear headline, short subtitle, and visible but not intrusive price or selling point. Do not over-decorate or add clutter.
+原始提示词：
+```text
+保留菜品原始结构和摆盘特征，进行商业摄影级优化：光线柔和、色泽自然鲜亮、质感真实、边缘干净、背景简洁高级。整体风格像高端餐饮品牌海报，留白充足，主标题醒目，副标题简短，价格/卖点放在显眼但不突兀的位置。不要过度装饰，不要生成乱码，不要出现多余人物和杂物。
+```
 
 ### hotpot
-Use for hotpot shops, hotpot ingredients, skewers, or dishes meant for boiling.
+Use for 火锅, 涮菜, 串串, 毛肚, 肥牛, 火锅菜品.
 
-Prompt pattern: Generate a hotpot dish promotional image. Preserve the ingredient shape and freshness from the original image. Add fresh appetizing color, warm soft light, dark wood table or restrained hotpot atmosphere, and a clean premium layout. Text can include dish name, taste/selling point, suitable-for-hotpot note, and store or brand name if provided.
+原始提示词：
+```text
+生成火锅菜品宣传图，保留原图菜品形状和食材特征，增强新鲜感和食欲感。背景可使用深色木纹桌面、轻微火锅氛围、柔和暖光，不要抢主体。文案包含菜品名、口感卖点、适合涮煮、门店/品牌名。整体干净高级，适合上传美团菜单和抖音团购。
+```
 
 ### meituan-menu
-Use for Meituan, Dianping, delivery, group-buying, and menu main images.
+Use for 美团, 大众点评, 外卖, 菜单图, 主图.
 
-Prompt pattern: Generate a platform-ready dish menu image. Put the dish clearly in the center, with a clean background and the food taking about 70 percent of the image. Use true appetizing color. Keep text minimal: dish name, one selling point, and price or combo info if provided. No messy border, no exaggerated filter, no low-quality ad layout.
+原始提示词：
+```text
+生成适合美团/外卖平台的菜品主图，主体清晰居中，背景干净，菜品占画面70%左右，颜色真实有食欲。文字尽量少，只保留菜品名、核心卖点、价格或套餐信息。不要杂乱，不要低质广告边框，不要夸张滤镜。
+```
+
+## Scene Templates
 
 ### promotion
-Use for limited-time promotions, discounts, activities, or low-price hooks.
+Use for 促销, 活动, 优惠, 限时, 特价.
 
-Prompt pattern: Generate a restaurant promotion poster for the provided store and activity. The real dish is the main subject. Use a clean premium warm-toned layout that improves appetite. Keep text within 5 lines: headline, selling point, price, activity time, contact info. Avoid cartoon style, cheap ad style, and garbled text.
+原始提示词：
+```text
+生成一张【店名】促销海报，主题是【活动主题】，主推【菜品/套餐】，价格【价格】。画面以真实菜品为主体，背景简洁高级，暖色调提升食欲，文字控制在5行内：主标题、卖点、价格、活动时间、联系方式。不要廉价广告风，不要卡通，不要乱码，适合朋友圈和抖音本地生活。
+```
 
 ### single-dish
-Use for one dish, one product, signature dish, or "make this dish sell better".
+Use for 单品, 菜品图, 招牌菜, 主推菜.
 
-Prompt pattern: Generate a single-dish restaurant promotional image from the original dish photo. Preserve the dish's real form and only improve lighting, color, background, and layout. Headline should be the dish name when provided. Subtitle should be one taste or selling point such as fresh, crispy, made now, signature, or hotpot companion. Keep it clean, premium, and suitable for menu use.
+原始提示词：
+```text
+根据原图生成【菜品名】单品宣传图。保留菜品真实形态，只优化光线、色泽、背景和排版。主标题：【菜品名】；副标题：【口感/卖点】，例如新鲜爽脆、现切现卖、火锅好搭档。整体干净高级，适合美团菜单图。
+```
 
 ### combo
-Use for combo meals, double meals, family meals, group-buying meals, or a dish list with price.
+Use for 套餐, 双人餐, 家庭餐, 团购套餐, 菜品列表.
 
-Prompt pattern: Generate a restaurant combo poster. Show a rich but not cluttered dining-table atmosphere. Include the combo name, dish list, and price when provided. Make the food realistic and appetizing, make the price visible, and keep the layout clean and premium. Suitable for Douyin group-buying covers or Meituan group-buying images.
+原始提示词：
+```text
+生成【店名】招牌套餐海报，套餐名【套餐名】，包含【菜品列表】，价格【价格】。画面要有丰富但不杂乱的餐桌氛围，菜品真实有食欲，价格醒目，版式高级简洁，适合抖音团购封面/美团团购图。
+```
 
 ### new-product
-Use for new launches and "today's recommendation".
+Use for 新品, 上新, 新品上市, 限时尝鲜, 今日推荐.
 
-Prompt pattern: Generate a new-product restaurant poster. Use clean premium styling and choose the main color according to the food. Highlight text such as "新品上市", "限时尝鲜", or "今日推荐" only if appropriate. Preserve real food texture and use a simple atmospheric background without exaggerated decoration.
+原始提示词：
+```text
+生成【新品名】新品上市海报。风格干净高级，主色调根据菜品选择，突出“新品上市/限时尝鲜/今日推荐”。保留食物真实质感，背景简洁有氛围，不要夸张装饰，适合朋友圈发布。
+```
+
+### dianping-menu
+Use for 美团/大众点评菜单图. Prefer `meituan-menu` for 外卖主图; use this when the user says 菜单图 or 大众点评.
+
+原始提示词：
+```text
+生成适合美团/大众点评的【菜品名】菜单图，主体清晰，菜品占比高，背景干净，文字只保留菜名、价格、1句卖点。色彩真实自然，食欲感强，不要过度滤镜，不要复杂边框。
+```
 
 ### douyin-cover
-Use for Douyin local-life video covers or vertical click-oriented covers.
+Use for 抖音, 本地生活, 短视频封面, 团购封面, 探店封面.
 
-Prompt pattern: Generate a Douyin local-life cover image. The main subject is the dish, storefront, or boss display image provided by the user. Use 9:16 vertical composition. Big headline should be 8 Chinese characters or fewer, attractive but not exaggerated. Keep background clean and text large and readable.
-
-### xiaohongshu-poster
-Use for Xiaohongshu note covers, local restaurant recommendation images, and food-seeding style posts.
-
-Prompt pattern: Generate a Xiaohongshu-style local restaurant food poster. Use a clean appetizing composition, clear food subject, friendly lifestyle tone, and readable headline. Keep it real and not like a conference poster or cheap ad. Use 4:5 by default unless the user asks for another ratio.
+原始提示词：
+```text
+生成一张抖音本地生活封面，主题【主题】，画面主体是【菜品/店铺/老板展示图】。大标题8字以内，强吸引但不夸张，例如“这家火锅太会了”。背景干净，文字大而清晰，适合9:16竖屏。
+```
 
 ### breakfast
-Use for breakfast shops: buns, soy milk, noodles, rice noodles, porridge, fried dough, warm morning food.
+Use for 早餐, 包子, 豆浆, 面, 粉, 油条, 热乎.
 
-Prompt pattern: Generate a breakfast-shop promotional poster. Emphasize warm, freshly made, affordable, and comforting morning food. Use realistic warm light, a clean tabletop, and a light street-life feel. Include business hours, price, or address only if provided. Avoid cheap red-yellow explosive ad style.
+原始提示词：
+```text
+生成早餐店宣传海报，主推【早餐产品】，卖点【现做/热乎/实惠/营养】。画面真实有烟火气，暖光，干净桌面，文字包含营业时间、价格、地址。不要过度装饰，不要廉价红黄爆炸风。
+```
 
 ### barbecue-night
-Use for barbecue, grilled fish, crayfish, skewers, night snack, late-night dining.
+Use for 夜宵, 烧烤, 烤鱼, 小龙虾, 串串.
 
-Prompt pattern: Generate a night-snack barbecue poster. Create a warm night street-food atmosphere that feels lively but not messy. The grilled color should be appetizing, with warm lighting and a clean layout. Text can emphasize night snack, friends gathering, after-work meal, or the product name.
+原始提示词：
+```text
+生成夜宵烧烤宣传海报，主推【产品】，氛围是夜晚街边烟火气、热闹但不杂乱。菜品烤色诱人，灯光暖，文字突出“夜宵/聚餐/下班后来一顿”。适合朋友圈和抖音。
+```
 
 ### light-meal
-Use for salad, fitness meals, chicken breast, diet meals, low-calorie food.
+Use for 轻食, 减脂餐, 沙拉, 鸡胸肉, 低卡.
 
-Prompt pattern: Generate a light-meal promotional poster. Use a clean fresh style, white or light-green background, fresh ingredients, and colorful but natural food presentation. Emphasize low-calorie, filling, fresh, or office-worker friendly if provided. Avoid oily heavy filters.
+原始提示词：
+```text
+生成轻食减脂餐海报，主推【产品】，画面干净清爽，食材新鲜、色彩丰富，白色/浅绿色背景，文字突出“低卡、饱腹、新鲜、上班族友好”。不要油腻，不要重口味滤镜。
+```
 
 ### drink
-Use for milk tea, coffee, fruit tea, and drinks.
+Use for 奶茶, 咖啡, 果茶, 饮品.
 
-Prompt pattern: Generate a drink poster. Preserve the real drink shape and clear cup body. Use a clean premium fresh-toned background. Text can include drink name, taste description, "今日推荐", or "新品" if provided. Avoid cartoon stickers and cheap decoration.
+原始提示词：
+```text
+生成【饮品名】饮品海报，保留饮品真实形态，杯身清晰，背景干净高级，色调清爽。文字包含：饮品名、口感描述、今日推荐/新品。不要卡通风，不要廉价贴纸。
+```
 
 ### dessert-snack
-Use for desserts, cakes, fried snacks, special snacks, and regional snacks.
+Use for 甜品, 蛋糕, 小吃, 炸香蕉, 东南亚小吃.
 
-Prompt pattern: Generate a clean premium snack or dessert promotional image. Preserve the real food shape and only improve lighting, color, background, and layout. Add a small amount of regional or product-relevant atmosphere only if it does not overpower the food.
+原始提示词：
+```text
+生成【菜品名】宣传图，风格干净高级，保留原始餐品真实形态，只优化光线、色泽、背景和排版。加入少量地域特色元素但不要喧宾夺主，适合餐厅宣传。
+```
 
 ### hotpot-collection
-Use for multiple hotpot dishes, menu collections, new dish collections, or recommended hotpot orders.
+Use for 火锅店菜品合集, 多个火锅菜, 点单推荐.
 
-Prompt pattern: Generate a hotpot dish collection poster with a unified layout. Use a dark premium background, real clear food images, and readable names for each dish. Use a headline such as "今日必点" or "火锅好搭档" only if suitable. Keep the collection organized and not crowded.
+原始提示词：
+```text
+生成火锅店菜品合集海报，包含【菜品1、菜品2、菜品3、菜品4】。整体统一排版，深色高级背景，菜品真实清晰，标题为“今日必点/火锅好搭档”，每个菜名清楚可读，不要杂乱。
+```
 
 ### opening
-Use for new store opening, trial operation, opening promotions.
+Use for 开业, 新店开业, 试营业.
 
-Prompt pattern: Generate a store opening promotion poster. Theme can be "新店开业" or "限时福利" when appropriate. Use the signature dish or storefront environment as the main subject. Make activity details and price visible if provided. The mood may be festive but not tacky; use red only moderately.
+原始提示词：
+```text
+生成【店名】开业活动海报，主题“新店开业/限时福利”，活动【活动内容】，时间【日期】。画面要喜庆但不土，红色可少量使用，主体是招牌菜或门店环境，价格和活动信息醒目。
+```
 
 ### holiday
-Use for holiday marketing around Dragon Boat Festival, Mid-Autumn Festival, National Day, Spring Festival, 520, and similar dates.
+Use for 节日, 端午, 中秋, 国庆, 春节, 520.
 
-Prompt pattern: Generate a holiday restaurant marketing poster. Use the provided dish or combo as the main subject and include the holiday and offer only if provided. Add holiday atmosphere subtly, not excessive decoration. Keep the text clean and premium for Moments or community posting.
+原始提示词：
+```text
+生成【节日】餐饮营销海报，主推【套餐/菜品】，活动【优惠】。画面有节日氛围但不要过度装饰，菜品真实有食欲，文字简洁高级，适合朋友圈/社群。
+```
 
 ### student-worker-meal
-Use for student or office-worker combos, low-price filling meals, quick meals near schools or offices.
+Use for 学生党, 打工人, 套餐, 快餐, 盖饭, 麻辣烫, 管饱.
 
-Prompt pattern: Generate an affordable meal poster for students or workers. Emphasize good value, filling portion, fast service, and real rich ingredients. Make the message direct but not exaggerated. Suitable for restaurants near schools or office buildings.
+原始提示词：
+```text
+生成【学生/打工人】套餐海报，价格【价格】，卖点“实惠、管饱、出餐快”。画面真实，食材丰富，文字直给，不要夸张。适合学校/写字楼周边商家。
+```
 
 ### moments-poster
-Use for boss Moments, WeChat community, or daily merchant posting.
+Use for 老板朋友圈, 朋友圈宣传, 社群日常宣传.
 
-Prompt pattern: Generate a restaurant image suitable for a shop owner to post on Moments. Make the copy natural rather than hard-sell. The image should feel like a real store's phone photo upgraded into a commercial promotional image. Keep text minimal and retain real street-life or store feeling.
-
-### in-store-poster
-Use for in-store posters, table stickers, horizontal posters, or printed restaurant display material.
-
-Prompt pattern: Generate a clean restaurant in-store promotional poster. Make the dish or store offer easy to understand from a distance. Use clear hierarchy, readable title, concise selling point, and price or activity detail only if provided. Keep enough spacing for printing and avoid tiny text.
+原始提示词：
+```text
+生成一张适合老板发朋友圈的餐饮宣传图，主推【菜品】，文案自然不生硬，画面真实干净，像手机拍摄升级后的商业图。文字不要太多，保留店铺真实感和烟火气。
+```
 
 ### quality-explain
-Use for ingredient trust, packaging, portion size, made-now explanation, or reputation recovery.
+Use for 品质说明, 食材新鲜, 现做现卖, 分量足, 包装升级, 差评挽回.
 
-Prompt pattern: Generate a restaurant quality explanation image. Theme can be fresh ingredients, made now, large portion, or packaging upgrade when provided. Use clean real imagery with simple text explanation. Avoid exaggerated promises.
+原始提示词：
+```text
+生成一张餐饮品质说明图，主题【现做现卖/食材新鲜/分量足/包装升级】。画面干净真实，用图文说明，不要夸张承诺，适合发群和朋友圈。
+```
 
 ### store-environment
-Use for restaurant environment, private rooms, decoration, storefront, and trust building.
+Use for 门店环境, 包间, 装修, 店铺环境, 到店体验.
 
-Prompt pattern: Generate a store environment promotional image. Preserve the real spatial feeling, improve lighting and tidiness, and make the style warm and premium. Text can emphasize clean comfort, friends gathering, family meal, or in-store experience. Do not make the environment look fake.
+原始提示词：
+```text
+生成门店环境宣传图，保留真实空间感，优化光线和整洁度，风格温馨高级。文字突出“干净舒适/朋友聚餐/家庭聚会/到店体验”。不要把环境改得过假。
+```
 
 ### qr-lead
-Use for QR code lead generation, scan-to-order, group coupons, WeChat contact, or delivery/group-buying entry.
+Use for 二维码, 扫码, 进群, 外卖, 团购, 微信咨询.
 
-Prompt pattern: Generate a scan-code lead-generation poster. Reserve a clean QR-code area, usually bottom-right, with enough white space and no obstruction. The dish remains the main subject. Text should be clear and brief, such as scan to order, join group for coupons, or group-buying offer.
+原始提示词：
+```text
+生成扫码引流海报，右下角预留二维码位置，不要遮挡。主题【扫码下单/进群领券/团购优惠】，菜品为主体，文字简洁清晰，二维码附近留白干净。
+```
 
 ### menu-price-list
-Use for price menus, category lists, drink menus, snack menus, and combo price boards.
+Use for 价格菜单, 价目表, 菜单价格, 饮品价目表.
 
-Prompt pattern: Generate a clean premium restaurant price menu image. Include dish list and prices when provided. Layout should be readable, categorized, and easy to scan, with a simple background and a small number of dish images as decoration. Avoid complex patterns and excessive tiny text.
+原始提示词：
+```text
+生成简洁高级的餐饮价格菜单图，包含【菜品列表+价格】。版式清楚，分类明确，字体易读，背景简洁，少量菜品图点缀。不要复杂花纹，不要小字太多。
+```
